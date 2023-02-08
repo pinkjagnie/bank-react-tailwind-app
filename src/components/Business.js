@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Button from "./Button";
+import Modal from "./Modal/Modal";
 
 import { features } from "../constans/index";
 import styles, { layout } from "../style";
@@ -24,23 +25,38 @@ const FeatureCard = ({ icon, title, content, index }) => {
 };
 
 const Business = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const modalHandler = () => {
+    setShowModal(true);
+    // console.log(showModal)
+  };
+
+  const closeModalHandler = () => {
+    setShowModal(false)
+  };
+
   return(
-    <section id="features" className={layout.section}>
-      <div className={layout.sectionInfo}>
-        <h2 className={styles.heading2}>You do the business, <br className="sm:block hidden"/> we'll handle the money.</h2>
-        <p className={`${styles.paragraph} max-w-[470px] mt-5`}>With the right credit card, you can improve your financial life by building credit, earning rewards and saving money. But with hundreds of credit cards on the market.</p>
-        <Button styles={`mt-10`} />
-      </div>
+    <>
+      {showModal && <Modal closeModalHandler={closeModalHandler} />}
 
-      <div className={`${layout.sectionImg} flex-col`}>
-        {features.map((feature, index) => {
-          return(
-            <FeatureCard key={feature.id} {...feature} index={index} />
-          )
-        })}
-      </div>
+      <section id="features" className={layout.section}>
+        <div className={layout.sectionInfo}>
+          <h2 className={styles.heading2}>You do the business, <br className="sm:block hidden"/> we'll handle the money.</h2>
+          <p className={`${styles.paragraph} max-w-[470px] mt-5`}>With the right credit card, you can improve your financial life by building credit, earning rewards and saving money. But with hundreds of credit cards on the market.</p>
+          <div onClick={modalHandler}><Button styles={`mt-10`} text="Get Started"/></div>
+        </div>
 
-    </section>
+        <div className={`${layout.sectionImg} flex-col`}>
+          {features.map((feature, index) => {
+            return(
+              <FeatureCard key={feature.id} {...feature} index={index} />
+            )
+          })}
+        </div>
+
+      </section>
+    </>
   )
 };
 
